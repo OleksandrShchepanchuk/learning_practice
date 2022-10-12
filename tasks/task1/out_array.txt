@@ -1,0 +1,90 @@
+name: name1 surname
+arrears 1
+rate 10
+address address
+date of registration 11 10 2020
+date of last check 2 11 2019
+all checks
+10 2 2017
+6 6 2016
+name: name2 surname
+arrears 1
+rate 10
+address address
+date of registration 11 10 2005
+date of last check 2 11 2005
+all checks
+10 2 2017
+6 6 2004
+name: name3 surname
+arrears 1
+rate 10
+address address
+date of registration 11 10 2007
+date of last check 10 2 2011
+all checks
+10 2 2017
+6 6 2010
+name: name4 surname
+arrears 1
+rate 10
+address address
+date of registration 11 10 2008
+date of last check 2 11 2008
+all checks
+10 2 2017
+6 6 2013
+name: name5 surname
+arrears 1
+rate 10
+address address
+date of registration 11 10 2017
+date of last check 2 11 2017
+all checks
+10 2 2017
+6 6 2015
+name: name6 surname
+arrears 1
+rate 10
+address address
+date of registration 11 10 1980
+date of last check 2 11 1980
+all checks
+10 2 2017
+6 6 2016
+name: name7 surname
+arrears 1
+rate 10
+address address
+date of registration 11 10 2019
+date of last check 2 11 2019
+all checks
+10 2 2017
+6 6 2016
+name: name8 surname
+arrears 1
+rate 10
+address address
+date of registration 11 10 1978
+date of last check 2 11 1978
+all checks
+10 2 2017
+6 6 2016
+name: name9 surname
+arrears 1
+rate 10
+address address
+date of registration 11 10 1977
+date of last check 2 11 1977
+all checks
+10 2 2017
+6 6 2016
+name: name10 surname
+arrears 1
+rate 10
+address address
+date of registration 11 10 1977
+date of last check 2 11 1977
+all checks
+10 2 2017
+6 6 2016

@@ -27,7 +27,7 @@ Abonent_energy::Abonent_energy(std::string name,
 
 Abonent_energy::~Abonent_energy()
 {
-
+    std::cout << "\nAbonent_energy is destroyed" << std::endl;
 }
 
 Abonent_energy::Abonent_energy()
@@ -75,6 +75,7 @@ void Abonent_energy::print(std::ostream& f)
 {
     Abonent::print(f);
     f << "start_data: " << start_data << "\nend_data: " << end_data;
+    std::cout << std::endl;
 }
 void Abonent_energy::readFromFile(std::istream& in)
 {

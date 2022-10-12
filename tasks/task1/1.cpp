@@ -1,4 +1,6 @@
 #include "abonent.h"
+#include "abonent_energy.h"
+#include "abonent_water.h"
 #include <iostream>
 #include <string>
 #include <ctime>
@@ -6,37 +8,41 @@
 
 using namespace std;
 void readFromFile(Abonent *arr, istream& in, int& size);
+Abonent *find_in_range(Abonent A, Abonent B, Abonent *array, int k, int &count);
+void insertionSort(Abonent *arr, int n);
+void print_array(Abonent* arr, int k, ostream& os);
+
 
 int main() {
     // Abonent abonent2;
     // Abonent abonent1 = abonent2;
     // // cout << "Hellow world" << endl;
     // abonent2.set_date_of_last_check(2020, 9, 18);
-    ifstream f("in.txt");
+    // ifstream f("in.txt");
     // cout << abonent2.term_to_check() << endl;;
     // abonent1.readFromFile(f);
     // abonent1.print();
     // // abonent2.print();
     // // abonent1.print();
-    int size = 0;
+    // int size = 0;
     std::tm * dates = new std::tm[100] {Date(2020, 8, 2), Date(2021,8, 2)};
-    Abonent a("name", "surname", 0, 0, "address", Date(2020,8, 2), Date(2021,8, 2), dates, 2);
-    a.get_all_dates()[0] = Date(2010,2,6);
-    cout << a.get_all_dates()[0].tm_year + 1900 << endl;
-    cout << dates[0].tm_year + 1900 << endl;
+    // Abonent a("name", "surname", 0, 0, "address", Date(2020,8, 2), Date(2021,8, 2), dates, 2);
+    // a.get_all_dates()[0] = Date(2010,2,6);
+    // cout << a.get_all_dates()[0].tm_year + 1900 << endl;
+    // cout << dates[0].tm_year + 1900 << endl;
 
-    Abonent * abonent = new Abonent[100];
-    readFromFile(abonent, f, size);
-    for (int i = 0; i < size; i++)
-    {
-        abonent[i].print(cout);
-    }
-    f.close();
+    // Abonent * abonent = new Abonent[100];
+    // readFromFile(abonent, f, size);
+    // for (int i = 0; i < size; i++)
+    // {
+    //     abonent[i].print(cout);
+    // }
+    // f.close();
     // ofstream a("out.txt");
-    for (int i = 0; i < size; i++)
-    {
+    // for (int i = 0; i < size; i++)
+    // {
         // abonent[i].print(a);
-    }
+    // }
     // a.close();
     // int b = 1;
     // while(b) 
@@ -73,11 +79,72 @@ int main() {
     //         break;
     //     }
     // }
+    // Abonent_energy user_energy("name", "surname", 2, 2, "address", Date(2020,8, 2), Date(2021,8, 2), dates, 2,1000,1200);
+    // Abonent_water user_water("name", "surname", 2, 2, "address", Date(2020,8, 2), Date(2021,8, 2), dates, 2,200);
+    // Abonent* user;
+    // Abonent user1("name", "surname", 2, 2, "address", Date(2020,8, 2), Date(2021,8, 2), dates, 2);
+    // user = &user_energy;
+    // user->print(cout);
+    // Abonent_energy *user_energy;
+    // cout << user_energy.get_total_price() << endl;
+    // // cout << user->get_total_price() << endl;
+    // cout << endl;
+    // cout << *user;
+    // // name surname 0 3 address1 2020 8 2 2 2 2021 2 2 8 2021 2 7 2020 1000 1300
+    // cin >> *user;
+    // cout << *user;
+    // cout << endl;
+    // cout << endl;
+    // cout << "+------" << endl;
+    // cout << user_energy;
+    // cout << "+------" << endl;
+    // cout << user_water;
+
+
+
+// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+    Abonent test_for_addition("name", "surname", 2, 10, "address", Date(2005,8, 2), Date(2005,8, 2), dates,2);
+    Abonent test_for_addition1("name", "surname", 2, 5, "address", Date(2016,8, 2), Date(2016,8, 2), dates,2);
+    Abonent test_for_addition2;
+    test_for_addition2 = (test_for_addition + test_for_addition1);
+    // cout << (test_for_addition < test_for_addition1) << endl;
+    // cout << (test_for_addition > test_for_addition1) << endl;
+    // cout << string(test_for_addition);
+    // Abonent *arr = new Abonent[100];
+    // Abonent *arr2 = new Abonent[100];
+    // int size = 0;
+    // ifstream f("in.txt");
+    // readFromFile(arr, f, size);
+    // f.close();
+    // ofstream a("out_array.txt");
+    // ofstream b("out_array_sorted.txt");
+    // print_array(arr, size,a);
+    // insertionSort(arr, size);
+    // print_array(arr, size,b);
+    // a.close();
+    // b.close();
+    // int count = 0;
+    // arr2 = find_in_range(test_for_addition, test_for_addition1, arr, size, count);
+    // print_array(arr2, count, cout);
+    cout << test_for_addition1;
+    test_for_addition = test_for_addition1++;
+    cout << "1\n";
+    cout << test_for_addition;
+    test_for_addition = ++test_for_addition1;
+    cout << "2\n";
+    cout << test_for_addition;
+    cout << "3\n";
+    cout << test_for_addition1;
     return 0;
 }
 
+
+
+
+
 void readFromFile(Abonent *arr, istream& in, int& size) {
-    while (!in.eof()) {
+    while (true) {
         arr[size].readFromFile(in);
         if (!arr[size].get_name().length())
         {
@@ -88,3 +155,43 @@ void readFromFile(Abonent *arr, istream& in, int& size) {
 }
 
 
+Abonent *find_in_range(Abonent A, Abonent B, Abonent *array, int k, int &count)
+{
+    Abonent *result = new Abonent[k+1];
+    for (int i = 0; i < k; i++)
+    {
+        // cout << i << endl;
+        if (array[i] > A && array[i] < B)
+        {
+        
+            result[count] = array[i];
+            count ++;
+        }
+    }
+    return result;
+}
+
+void insertionSort(Abonent *arr, int n) 
+{ 
+    int i, j;
+    Abonent key; 
+    for (i = 1; i < n; i++)
+    { 
+        key = arr[i]; 
+        j = i - 1; 
+        while (j >= 0 && arr[j] > key)
+        { 
+            arr[j + 1] = arr[j]; 
+            j = j - 1; 
+        } 
+        arr[j + 1] = key; 
+    } 
+} 
+
+void print_array(Abonent* arr, int k, ostream& os)
+{
+    for (int i = 0; i < k; i++)
+    {
+        os << arr[i];
+    }
+}

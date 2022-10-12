@@ -30,7 +30,7 @@ Abonent_water::Abonent_water()
 
 Abonent_water::~Abonent_water()
 {
-    
+    std::cout << "\nAbonent_water is destroyed" << std::endl;
 }
 
 void Abonent_water::set_cubes(double cubes_)
@@ -45,7 +45,7 @@ double Abonent_water::get_total_price()
 {
     std::time_t t = std::time(0);   // get time now
     std::tm* now= std::localtime(&t);
-    if (now->tm_mon <= 4 or now->tm_mon >=7 )
+    if (now->tm_mon <= 4 && now->tm_mon >=7 )
     {
         return rate*cubes*2;
     }
@@ -56,6 +56,7 @@ void Abonent_water::print(std::ostream& f)
 {
     Abonent::print(f);
     f << "cubes: " << cubes << "\n";
+    std::cout << std::endl;
 }
 void Abonent_water::readFromFile(std::istream& in)
 {

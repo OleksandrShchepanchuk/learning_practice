@@ -4,6 +4,12 @@
 #include <fstream>
 
 const int VALUE = 1000;
+std::string Abonent::date_to_string(std::tm date)
+{
+    std::string string_to_return = "";
+    string_to_return += std::to_string(date.tm_year+1900) + "-" + std::to_string(date.tm_mon+1) + "-" + std::to_string(date.tm_mday);
+    return string_to_return;
+}   
 std::tm Date(int year, int month, int day)
 {
     std::tm tm = {0};
@@ -13,11 +19,33 @@ std::tm Date(int year, int month, int day)
     return tm;
 }
 
+Abonent& Abonent::operator=(const Abonent& other) 
+{
+    if (this != &other)
+    {
+        this->name = other.name;
+        this->surname = other.surname;
+        this->address = other.address;
+        this->arrears = other.arrears;
+        this->date_of_last_check = other.date_of_last_check;
+        this->rate = other.rate;
+        this->k_days = other.k_days;
+        delete[] this->all_dates;
+        this->all_dates = new std::tm[VALUE];
+        this->date_of_reg = other.date_of_reg;
+        for (int i = 0; i < this->k_days; i++)
+        {
+            this->all_dates[i] = other.all_dates[i];
+        }
+    }
+    return *this;
+
+}
 
 
 
-Abonent::Abonent(   std::string name,
-                    std::string surname,
+Abonent::Abonent(   std::string name_,
+                    std::string surname_,
                     bool arrears_,
                     double rate_,
                     std::string address_,
@@ -27,6 +55,8 @@ Abonent::Abonent(   std::string name,
                     int k_days_
                 ) 
 {
+    name = name_;
+    surname = surname_;
     all_dates = new std::tm[VALUE];
     arrears             = arrears_;
     rate                = rate_;
@@ -59,6 +89,8 @@ Abonent::Abonent()
 
 Abonent::Abonent(const Abonent& other)
 {
+    this->name = other.name;
+    this->surname = other.surname;
     this->address = other.address;
     this->arrears = other.arrears;
     this->date_of_last_check = other.date_of_last_check;
@@ -129,42 +161,42 @@ void Abonent::set_arrears(bool arrears_)
 }
 
 
-std::string Abonent::get_name()
+std::string Abonent::get_name() const
 {
     return name;
 }
 
-std::string Abonent::get_surname()
+std::string Abonent::get_surname() const
 {
     return surname;
 }
 
-std::string Abonent::get_address()
+std::string Abonent::get_address() const
 {
     return address;
 }
 
-std::tm Abonent::get_date_of_reg()
+std::tm Abonent::get_date_of_reg() const
 {
     return date_of_reg;
 }
 
-std::tm Abonent::get_date_of_last_check()
+std::tm Abonent::get_date_of_last_check() const
 {
     return date_of_last_check;
 }
 
-double Abonent::get_rate()
+double Abonent::get_rate() const
 {
     return rate;
 }
 
-int Abonent::get_standard()
+int Abonent::get_standard() const
 {
     return standard;
 }
 
-std::tm *Abonent::get_all_dates()
+std::tm *Abonent::get_all_dates() const
 {
     std::tm *array_to_return = new std::tm[VALUE];
     for (int i =0; i < k_days; i++)
@@ -175,12 +207,12 @@ std::tm *Abonent::get_all_dates()
     // return all_dates;
 }
 
-bool Abonent::get_arrears()
+bool Abonent::get_arrears() const
 {
     return arrears;
 }
 
-int Abonent::service_costs()
+int Abonent::   service_costs()
 {
     if (this->is_overdue())
     {
@@ -275,3 +307,113 @@ void Abonent::readFromFile(std::istream& in)
         this->set_date_of_last_check(year2,month2,day2);
         this->set_all_dates(all_dates_, k_days_);
 }
+
+int Abonent::get_k_days() const
+{
+    return k_days;
+}
+
+std::ostream& operator << (std::ostream& os, Abonent& A)
+{
+    // os << "name: " << A.get_name() << " " << A.get_surname() << std::endl;
+    // os << "arrears " << A.get_arrears() << std::endl;
+    // os << "rate " << A.get_rate() << std::endl;
+    // os << "address " << A.get_address() << std::endl;
+    // os << "date of registration " << A.get_date_of_reg().tm_mday<<" " <<A.get_date_of_reg().tm_mon + 1 << " " << A.get_date_of_reg().tm_year + 1900 << std::endl;
+    // os << "date of last check " << A.get_date_of_last_check().tm_mday << " " <<A.get_date_of_last_check().tm_mon + 1 << " " << A.get_date_of_last_check().tm_year + 1900 << std::endl;
+    // os << "all checks" << std::endl;
+    // for (int i = 0; i < A.get_k_days(); i++)
+    // {
+    //     os << A.get_all_dates()[i].tm_mday << " " <<A.get_all_dates()[i].tm_mon + 1 << " " << A.get_all_dates()[i].tm_year + 1900 << std::endl;
+    // }
+    A.print(os);
+    return os; 
+}
+std::istream& operator >>(std::istream& is, Abonent& A)
+{
+    A.readFromFile(is);
+    return is;
+}
+
+Abonent operator + (Abonent& abonent, Abonent& abonent1)
+{
+    Abonent abonent_to_return;
+    abonent_to_return = abonent;
+    abonent_to_return.rate = abonent.rate + abonent1.rate;
+    return abonent_to_return;
+    
+}
+
+Abonent operator - (Abonent& abonent, Abonent& abonent1)
+{
+    Abonent abonent_to_return;
+    abonent_to_return = abonent;
+    abonent_to_return.rate = abonent.rate - abonent1.rate;
+    return abonent_to_return;
+    
+}
+
+bool operator < (Abonent& abonent, Abonent& abonent1)
+{
+
+    if (mktime(&abonent.date_of_reg) < mktime(&abonent1.date_of_reg))
+    {
+        return 1;
+    }
+    return 0;
+}
+
+bool operator > (Abonent& abonent, Abonent& abonent1)
+{
+    if (mktime(&abonent.date_of_reg) > mktime(&abonent1.date_of_reg))
+    {
+        return 1;
+    }
+    return 0;
+}
+
+bool operator == (Abonent& abonent, Abonent& abonent1)
+{
+    if (mktime(&abonent.date_of_reg) == mktime(&abonent1.date_of_reg)) return 1;
+    return 0;
+}
+
+bool operator != (Abonent& abonent, Abonent& abonent1)
+{
+    if (mktime(&abonent.date_of_reg) != (mktime(&abonent1.date_of_reg))) return 1;
+    return 0;
+}
+
+
+Abonent::operator std::string()
+{
+    std::string  string_to_return = "";
+    string_to_return += name + " " + surname + " " + address + "\n";
+    string_to_return += "rate: " + std::to_string(rate) + "\nstandard: " + std::to_string(standard) + "\narrears: " + std::to_string(arrears)+ "\n"; 
+    string_to_return += "date of registration: " + date_to_string(date_of_reg) + "\n";
+    string_to_return += "date of last check: " + date_to_string(date_of_last_check) + "\n";
+    string_to_return += "all checks:\n";
+    for (int i = 0; i < k_days; i++)
+    {
+    string_to_return += "date: " + date_to_string(all_dates[i]) + "\n";
+    }
+    return string_to_return;
+}
+
+
+Abonent Abonent::operator ++()
+{
+    Abonent temp = *this;
+    this->rate += 1000;
+    return temp;
+
+}
+Abonent Abonent::operator++( int)
+{
+    this->rate += 1000;
+    return *this;
+}
+// double Abonent::get_total_price()
+// {
+
+// }

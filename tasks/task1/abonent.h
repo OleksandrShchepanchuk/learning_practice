@@ -19,6 +19,7 @@ class Abonent {
         double rate;
         int standard;
         bool arrears;
+        std::string date_to_string(std::tm);
     public:
         Abonent();
         Abonent(    std::string name,
@@ -45,22 +46,40 @@ class Abonent {
         void set_standard(int standard_);
         void set_arrears(bool arrears_);
 
-        std::string get_name();
-        std::string get_surname();
-        std::string get_address();
-        std::tm get_date_of_reg();
-        std::tm get_date_of_last_check();
-        std::tm* get_all_dates();
-        double get_rate();
-        int get_standard();
-        bool get_arrears();
+        std::string get_name() const;
+        std::string get_surname() const;
+        std::string get_address() const;
+        std::tm get_date_of_reg() const;
+        std::tm get_date_of_last_check() const;
+        std::tm* get_all_dates() const;
+        double get_rate() const;
+        int get_standard() const;
+        bool get_arrears() const;
+        int get_k_days() const;
         
         virtual int service_costs();
         virtual bool is_overdue();
         virtual int term_to_check();
 
+        // virtual double get_total_price();
         virtual void print(std::ostream& f);
         virtual void readFromFile(std::istream& in);
+
+        friend std::ostream& operator << (std::ostream& os, Abonent& A);
+        friend std::istream& operator >> (std::istream& is, Abonent& A);
+
+        friend Abonent operator + (Abonent& abonent, Abonent& abonent1);
+        friend Abonent operator - (Abonent& abonent, Abonent& abonent1);
+
+        friend bool operator < (Abonent& abonent, Abonent& abonent1);
+        friend bool operator > (Abonent& abonent, Abonent& abonent1);
+        friend bool operator == (Abonent& abonent, Abonent& abonent1);
+        friend bool operator != (Abonent& abonent, Abonent& abonent1);
+        operator std::string();
+        Abonent operator++();
+        Abonent operator++(int);
+        Abonent& operator=(const Abonent& other);
+        
 };  
 
 #endif

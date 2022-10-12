@@ -128,11 +128,11 @@ int main() {
     // arr2 = find_in_range(test_for_addition, test_for_addition1, arr, size, count);
     // print_array(arr2, count, cout);
     cout << test_for_addition1;
-    test_for_addition = test_for_addition1++;
+    test_for_addition = ++test_for_addition1;
     cout << "1\n";
     cout << test_for_addition;
-    test_for_addition = ++test_for_addition1;
     cout << "2\n";
+    test_for_addition = test_for_addition1++;
     cout << test_for_addition;
     cout << "3\n";
     cout << test_for_addition1;

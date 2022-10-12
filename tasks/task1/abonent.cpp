@@ -403,15 +403,16 @@ Abonent::operator std::string()
 
 Abonent Abonent::operator ++()
 {
+    this->rate += 1000;
+    return *this;
+    
+
+}
+Abonent Abonent::operator++(int)
+{
     Abonent temp = *this;
     this->rate += 1000;
     return temp;
-
-}
-Abonent Abonent::operator++( int)
-{
-    this->rate += 1000;
-    return *this;
 }
 // double Abonent::get_total_price()
 // {

@@ -17,7 +17,7 @@ class Abonent_energy: public Abonent
     public:
         Abonent_energy(std::string name,
                         std::string surname,
-                        bool arrears_,
+                        int arrears_,
                         double rate_,
                         std::string address_,
                         std::tm date_of_reg_,
@@ -27,6 +27,7 @@ class Abonent_energy: public Abonent
                         double start_data_,
                         double end_data_);
         Abonent_energy();   
+        Abonent_energy(const Abonent_energy& other);   
         virtual ~Abonent_energy();
         void set_start_data(double start_data_);
         double get_start_data();
@@ -35,6 +36,10 @@ class Abonent_energy: public Abonent
         double get_total_price();
         void print(std::ostream& f);
         void readFromFile(std::istream& in);
+        Abonent& operator=(const Abonent& other);
+        Abonent_energy& operator=(const Abonent_energy& other);
+
+
 };
 
 

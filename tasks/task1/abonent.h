@@ -8,6 +8,7 @@
 
 std::tm Date(int year, int month, int day);
 
+const int VALUE = 1000;
 
 class Abonent {
     protected:
@@ -18,13 +19,13 @@ class Abonent {
         int size;
         double rate;
         int standard;
-        bool arrears;
+        int arrears;
         std::string date_to_string(std::tm);
     public:
         Abonent();
         Abonent(    std::string name,
                     std::string surname,
-                    bool arrears_,
+                    int arrears_,
                     double rate_,
                     std::string address_,
                     std::tm date_of_reg_,
@@ -44,7 +45,7 @@ class Abonent {
         void set_all_dates(std::tm* all_dates_, int k_days_);
         void set_rate(double rate_);
         void set_standard(int standard_);
-        void set_arrears(bool arrears_);
+        void set_arrears(int arrears_);
 
         std::string get_name() const;
         std::string get_surname() const;
@@ -54,14 +55,16 @@ class Abonent {
         std::tm* get_all_dates() const;
         double get_rate() const;
         int get_standard() const;
-        bool get_arrears() const;
+        int get_arrears() const;
         int get_k_days() const;
+
+        
         
         virtual int service_costs();
         virtual bool is_overdue();
         virtual int term_to_check();
 
-        // virtual double get_total_price();
+        virtual double get_total_price();
         virtual void print(std::ostream& f);
         virtual void readFromFile(std::istream& in);
 
@@ -78,8 +81,7 @@ class Abonent {
         operator std::string();
         Abonent operator++();
         Abonent operator++(int);
-        Abonent& operator=(const Abonent& other);
-        
+        virtual Abonent& operator=(const Abonent& other);
 };  
 
 #endif

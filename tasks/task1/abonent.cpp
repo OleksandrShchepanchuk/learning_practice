@@ -3,7 +3,6 @@
 #include <ctime>
 #include <fstream>
 
-const int VALUE = 1000;
 std::string Abonent::date_to_string(std::tm date)
 {
     std::string string_to_return = "";
@@ -33,6 +32,7 @@ Abonent& Abonent::operator=(const Abonent& other)
         delete[] this->all_dates;
         this->all_dates = new std::tm[VALUE];
         this->date_of_reg = other.date_of_reg;
+        this->standard = other.standard;
         for (int i = 0; i < this->k_days; i++)
         {
             this->all_dates[i] = other.all_dates[i];
@@ -46,7 +46,7 @@ Abonent& Abonent::operator=(const Abonent& other)
 
 Abonent::Abonent(   std::string name_,
                     std::string surname_,
-                    bool arrears_,
+                    int arrears_,
                     double rate_,
                     std::string address_,
                     std::tm date_of_reg_,
@@ -76,7 +76,7 @@ Abonent::Abonent()
 {
     std::string name = "";
     std::string surname = "";
-    bool arrears_ = 0;
+    int arrears_ = 0;
     double rate_ = 0;
     std::string address_ = "";
     std::tm date_of_reg_ = Date(0,0,0);
@@ -98,6 +98,7 @@ Abonent::Abonent(const Abonent& other)
     this->k_days = other.k_days;
     this->all_dates = new std::tm[VALUE];
     this->date_of_reg = other.date_of_reg;
+    this->standard = other.standard;
     for (int i = 0; i < this->k_days; i++)
     {
         this->all_dates[i] = other.all_dates[i];
@@ -155,7 +156,7 @@ void Abonent::set_standard(int standard_)
 }
 
 
-void Abonent::set_arrears(bool arrears_)
+void Abonent::set_arrears(int arrears_)
 {
     arrears = arrears_;
 }
@@ -207,12 +208,12 @@ std::tm *Abonent::get_all_dates() const
     // return all_dates;
 }
 
-bool Abonent::get_arrears() const
+int Abonent::get_arrears() const
 {
     return arrears;
 }
 
-int Abonent::   service_costs()
+int Abonent::service_costs()
 {
     if (this->is_overdue())
     {
@@ -227,6 +228,7 @@ bool Abonent::is_overdue()
 {
     std::time_t t = std::time(0);   // get time now
     std::tm* now= std::localtime(&t);
+
     time_t time1 = mktime(now);
     time_t time2 = mktime(&date_of_last_check);
     const int seconds_per_day = 60*60*24;
@@ -256,16 +258,28 @@ int Abonent::term_to_check()
 
 void Abonent::print(std::ostream& f)
 {
-    f << "name: " << name << " " << surname << std::endl;
-    f << "arrears " << arrears << std::endl;
-    f << "rate " << rate << std::endl;
-    f << "address " << address << std::endl;
-    f << "date of registration " << date_of_reg.tm_mday<<" " <<date_of_reg.tm_mon + 1 << " " << date_of_reg.tm_year + 1900 << std::endl;
-    f << "date of last check " << date_of_last_check.tm_mday << " " <<date_of_last_check.tm_mon + 1 << " " << date_of_last_check.tm_year + 1900 << std::endl;
-    f << "all checks" << std::endl;
-    for (int i = 0; i < k_days; i++)
+    if ( &f == &(std::cout))
     {
-        f << all_dates[i].tm_mday << " " <<all_dates[i].tm_mon + 1 << " " << all_dates[i].tm_year + 1900 << std::endl;
+
+        f << "name: " << name << " " << surname << std::endl;
+        f << "arrears " << arrears << std::endl;
+        f << "rate " << rate << std::endl;
+        f << "address " << address << std::endl;
+        f << "date of registration " << date_of_reg.tm_mday<<" " <<date_of_reg.tm_mon + 1 << " " << date_of_reg.tm_year + 1900 << std::endl;
+        f << "date of last check " << date_of_last_check.tm_mday << " " <<date_of_last_check.tm_mon + 1 << " " << date_of_last_check.tm_year + 1900 << std::endl;
+        f << "all checks" << std::endl;
+        for (int i = 0; i < k_days; i++)
+        {
+            f << all_dates[i].tm_mday << " " << all_dates[i].tm_mon + 1 << " " << all_dates[i].tm_year + 1900 << std::endl;
+        }
+    }
+    else 
+    {
+        f << name << " " << surname << " " <<  arrears << " " << rate <<" " << address <<  " " << date_of_reg.tm_year + 1900 << " " << date_of_reg.tm_mon +1<< " " << date_of_reg.tm_mday<< " "  <<date_of_last_check.tm_year + 1900 << " " << date_of_last_check.tm_mon + 1 << " " << " " << date_of_last_check.tm_mday << " ";
+        for (int i = 0; i < k_days; i++)
+        {
+           f<< all_dates[i].tm_year + 1900 << " "<< all_dates[i].tm_mon + 1  << " "  <<  all_dates[i].tm_mday << " ";
+        }
     }
 }
 
@@ -274,7 +288,7 @@ void Abonent::readFromFile(std::istream& in)
 
         std::string name;
         std::string surname;
-        bool arrears_;
+        int arrears_;
         double rate_;
         std::string address_;
         in >> name >> surname >> arrears_ >> rate_ >> address_;
@@ -380,8 +394,7 @@ bool operator == (Abonent& abonent, Abonent& abonent1)
 
 bool operator != (Abonent& abonent, Abonent& abonent1)
 {
-    if (mktime(&abonent.date_of_reg) != (mktime(&abonent1.date_of_reg))) return 1;
-    return 0;
+    return  !(abonent == abonent1);
 }
 
 
@@ -414,7 +427,7 @@ Abonent Abonent::operator++(int)
     this->rate += 1000;
     return temp;
 }
-// double Abonent::get_total_price()
-// {
-
-// }
+double Abonent::get_total_price()
+{
+    return 0;
+}            

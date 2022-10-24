@@ -5,6 +5,7 @@
 #include <string>
 #include <ctime>
 #include <fstream>
+#include "Service.h"
 
 using namespace std;
 void readFromFile(Abonent *arr, istream& in, int& size);
@@ -104,38 +105,62 @@ int main() {
 
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-    Abonent test_for_addition("name", "surname", 2, 10, "address", Date(2005,8, 2), Date(2005,8, 2), dates,2);
+    /*Abonent test_for_addition("name", "surname", 2, 10, "address", Date(2005,8, 2), Date(2005,8, 2), dates,2);
     Abonent test_for_addition1("name", "surname", 2, 5, "address", Date(2016,8, 2), Date(2016,8, 2), dates,2);
     Abonent test_for_addition2;
     test_for_addition2 = (test_for_addition + test_for_addition1);
+    */
     // cout << (test_for_addition < test_for_addition1) << endl;
     // cout << (test_for_addition > test_for_addition1) << endl;
-    // cout << string(test_for_addition);
-    // Abonent *arr = new Abonent[100];
-    // Abonent *arr2 = new Abonent[100];
-    // int size = 0;
-    // ifstream f("in.txt");
-    // readFromFile(arr, f, size);
-    // f.close();
-    // ofstream a("out_array.txt");
-    // ofstream b("out_array_sorted.txt");
-    // print_array(arr, size,a);
+    /*cout << string(test_for_addition);
+    Abonent *arr = new Abonent[100];
+    Abonent *arr2 = new Abonent[100];
+    int size = 0;
+    ifstream f("in.txt");
+    readFromFile(arr, f, size);
+    f.close();
+    ofstream a("out_array.txt");
+    ofstream b("out_array_sorted.txt");
+    */
+    // print_array(arr, size, a);
     // insertionSort(arr, size);
-    // print_array(arr, size,b);
+    // print_array(arr, siz e,b);
     // a.close();
     // b.close();
     // int count = 0;
     // arr2 = find_in_range(test_for_addition, test_for_addition1, arr, size, count);
     // print_array(arr2, count, cout);
-    cout << test_for_addition1;
-    test_for_addition = ++test_for_addition1;
-    cout << "1\n";
-    cout << test_for_addition;
-    cout << "2\n";
-    test_for_addition = test_for_addition1++;
-    cout << test_for_addition;
-    cout << "3\n";
-    cout << test_for_addition1;
+    // cout << test_for_addition1 << endl << endl;
+    // test_for_addition2 = test_for_addition1++;
+    // cout << test_for_addition1 << " 2 "<< test_for_addition2 << endl << endl;
+    // test_for_addition2 = ++test_for_addition1;
+    // cout << test_for_addition1 << " 2 "<< test_for_addition2 << endl << endl;
+    // test_for_addition1 = test_for_addition2 = test_for_addition;
+    // cout << test_for_addition1 << " 2 "<< test_for_addition2 << endl << endl;
+    Service service;
+    ifstream f("out_array.txt");
+    ofstream a ("out.txt");
+    // cout << "aaaaaaaa" << endl;
+    Abonent *test_for_add_f = new Abonent_water("name", "surname", 1000, 5, "address10", Date(2016,8, 2), Date(2019, 10, 23), dates,2, 200);
+
+
+    // test_for_add_f->print(cout);
+    service.read(f);
+    service.delete_abonent("address7");
+    service.delete_abonent("address1");
+    service.add_abonent(test_for_add_f);
+    // service.print_with_both_services(a);
+    service.sort_array("date_of_last_check");
+    service.print(a);
+    // service.check_equipment(cout);
+    a.close();
+    f.close();
+    // service.get_max_debtor()->print(cout);
+
+    cout << service.total() << endl;
+    
+    delete test_for_add_f;
+
     return 0;
 }
 

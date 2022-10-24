@@ -15,7 +15,7 @@ class Abonent_water: public  Abonent
     public:
         Abonent_water(std::string name,
                         std::string surname,
-                        bool arrears_,
+                        int arrears_,
                         double rate_,
                         std::string address_,
                         std::tm date_of_reg_,
@@ -24,6 +24,9 @@ class Abonent_water: public  Abonent
                         int k_days_,
                         double cubes);
         Abonent_water();
+        Abonent& operator=(const Abonent& other);
+        Abonent_water(const Abonent_water& other);
+        Abonent_water& operator=(const Abonent_water& other);
         virtual ~Abonent_water();
         void set_cubes(double cubes_);
         double get_cubes();

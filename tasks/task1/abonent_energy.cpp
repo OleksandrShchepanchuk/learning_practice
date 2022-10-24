@@ -10,7 +10,7 @@
 
 Abonent_energy::Abonent_energy(std::string name,
                         std::string surname,
-                        bool arrears_,
+                        int arrears_,
                         double rate_,
                         std::string address_,
                         std::tm date_of_reg_,
@@ -23,6 +23,40 @@ Abonent_energy::Abonent_energy(std::string name,
 {
     start_data = start_data_;
     end_data = end_data_;
+}
+
+Abonent_energy::Abonent_energy(const Abonent_energy& other)
+:Abonent(other)
+{
+    start_data = other.start_data;
+    end_data = other.end_data;
+}   
+
+
+Abonent_energy& Abonent_energy::operator=(const Abonent_energy& other)
+{
+    if (this != &other)
+    {
+        Abonent::operator=(other);
+        start_data = other.start_data;
+        end_data = other.end_data;
+    }
+    return *this;
+}
+
+Abonent& Abonent_energy::operator=(const Abonent& other)
+{
+    if (const Abonent_energy *derived = dynamic_cast<const Abonent_energy *>(&other))
+
+   {
+        if (this != *&derived)
+        {
+            Abonent::operator=(other);
+            start_data = derived->start_data;
+            end_data = derived->end_data;
+        }
+    }
+    return *this;
 }
 
 Abonent_energy::~Abonent_energy()
@@ -74,11 +108,18 @@ double Abonent_energy::get_total_price()
 void Abonent_energy::print(std::ostream& f)
 {
     Abonent::print(f);
-    f << "start_data: " << start_data << "\nend_data: " << end_data;
-    std::cout << std::endl;
+    if (&f == &std::cout)
+    {
+        f << "start_data: " << start_data << "\nend_data: " << end_data;
+        std::cout << std::endl;
+    }
+    else {
+        f << start_data << " " << end_data << " ";
+    }
 }
 void Abonent_energy::readFromFile(std::istream& in)
 {
     Abonent::readFromFile(in);
     in >> start_data >> end_data;
 }   
+
